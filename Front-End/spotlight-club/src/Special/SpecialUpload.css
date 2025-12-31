@@ -1,0 +1,283 @@
+.upload-form {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #0b0b0b;
+  color: white;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+}
+
+.upload-form h2 {
+  text-align: center;
+  color: #ff7b7b;
+  margin-bottom: 1.5rem;
+}
+
+.upload-form input,
+.upload-form textarea,
+.upload-form select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background: #1a1a1a;
+  color: white;
+}
+
+.upload-form textarea {
+  min-height: 120px;
+}
+
+.upload-form button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(90deg, #ff4d4d, #b30000);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.upload-page {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.upload-form {
+  background: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.upload-form input,
+.upload-form textarea,
+.upload-form select {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.7rem;
+}
+
+.upload-form button {
+  width: 100%;
+  padding: 0.8rem;
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.content-card {
+  display: flex;
+  gap: 1rem;
+  background: #222;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.content-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.delete-btn {
+  margin-top: 0.5rem;
+  background: crimson;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+}
+/* =========================
+   BASE STYLES
+========================= */
+
+.upload-page {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.upload-form {
+  background: #0b0b0b;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+  color: white;
+}
+
+.upload-form h2 {
+  text-align: center;
+  color: #ff7b7b;
+  margin-bottom: 1.5rem;
+}
+
+.upload-form input,
+.upload-form textarea,
+.upload-form select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background: #1a1a1a;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.upload-form textarea {
+  min-height: 120px;
+}
+
+.upload-form button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(90deg, #ff4d4d, #b30000);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.upload-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+}
+
+/* =========================
+   CONTENT LIST
+========================= */
+
+.content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.content-card {
+  display: flex;
+  gap: 1rem;
+  background: #222;
+  padding: 1rem;
+  border-radius: 12px;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.content-card:hover {
+  transform: scale(1.02);
+}
+
+.content-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.content-info {
+  flex: 1;
+}
+
+.content-info h3 {
+  margin: 0;
+  color: #ff7b7b;
+}
+
+.content-info p {
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.delete-btn {
+  margin-top: 0.5rem;
+  background: crimson;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+/* =========================
+   TABLET (≤ 1024px)
+========================= */
+
+@media (max-width: 1024px) {
+  .upload-page {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-form {
+    max-width: 700px;
+    margin: auto;
+  }
+}
+
+/* =========================
+   MOBILE (≤ 768px)
+========================= */
+
+@media (max-width: 768px) {
+  .upload-page {
+    padding: 1.2rem;
+    gap: 1.5rem;
+  }
+
+  .content-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .content-card img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .delete-btn {
+    width: 100%;
+  }
+}
+
+/* =========================
+   SMALL MOBILE (≤ 480px)
+========================= */
+
+@media (max-width: 480px) {
+  .upload-form {
+    padding: 1.5rem;
+  }
+
+  .upload-form h2 {
+    font-size: 1.3rem;
+  }
+
+  .upload-form input,
+  .upload-form textarea,
+  .upload-form select {
+    font-size: 0.9rem;
+  }
+
+  .content-card img {
+    height: 180px;
+  }
+}

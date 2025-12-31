@@ -1,0 +1,181 @@
+/* ========== GLOBAL ========== */
+.home-container {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  background: linear-gradient(270deg, #1a1a1a, #330000, #660000, #1a1a1a);
+  background-size: 600% 600%;
+  animation: gradientShift 20s ease infinite;
+}
+
+/* ========== INTRO SECTION ========== */
+.intro-section {
+  padding: 3rem 2rem;
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+  animation: fadeIn 2s ease;
+}
+
+.intro-section h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  color: #ff6666;
+}
+
+.intro-section p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+}
+
+.welcome-note {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff9999;
+}
+
+/* ========== SECTION TITLE ========== */
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #ff9999;
+  margin: 3rem 0 2rem;
+}
+
+/* ========== SPECIAL DAY ========== */
+.special-day-section {
+  padding: 2rem;
+}
+
+.special-day-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.special-poster {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 1rem;
+  object-fit: contain;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+}
+
+.special-details {
+  text-align: center;
+  max-width: 700px;
+}
+
+.special-details h3 {
+  font-size: 1.8rem;
+  color: #ff9999;
+}
+
+/* ========== CLUB WORKS SECTION ========== */
+.club-works-section {
+  padding: 4rem 2rem;
+  overflow: hidden;
+}
+
+/* EACH CLUB ITEM */
+.club-work {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 4rem;
+
+  opacity: 0;
+  transform: translateY(80px) scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* SCROLL ACTIVE */
+.club-work.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* LEFT / RIGHT LAYOUT */
+.work-left {
+  flex-direction: row;
+}
+
+.work-right {
+  flex-direction: row-reverse;
+}
+
+/* IMAGE */
+.club-work img {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 1rem;
+  object-fit: contain;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  animation: floatImage 6s ease-in-out infinite;
+}
+
+/* CONTENT */
+.work-description {
+  flex: 1;
+}
+
+.work-description h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  color: #ff9999;
+}
+
+.work-description p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 768px) {
+  .club-work {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .club-work img {
+    max-width: 100%;
+  }
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatImage {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
