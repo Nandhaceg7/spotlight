@@ -53,7 +53,9 @@ export default function Home() {
   // FETCH LATEST CONTENT
   useEffect(() => {
     // Standardized to localhost to match your backend; switch to Render URL for deployment
-    fetch(`http://localhost:5000/api/content/latest/${activeType}`)
+    fetch(
+      `https://spotlight-apj5.onrender.com/api/content/latest/${activeType}`
+    )
       .then((res) => {
         if (!res.ok) throw new Error("No content found");
         return res.json();

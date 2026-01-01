@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Articles.css";
 
 // Use a base URL variable to make switching between localhost and production easier
-const API_BASE = "http://localhost:5000/api/content";
+const API_BASE = "https://spotlight-apj5.onrender.com/api/content";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);

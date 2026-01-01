@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SpecialUpload.css";
 
-const API_BASE = "http://localhost:5000/api/content";
+const API_BASE = "https://spotlight-apj5.onrender.com/api/content";
 
 export default function SpecialUpload() {
   const [form, setForm] = useState({
