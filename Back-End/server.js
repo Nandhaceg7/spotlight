@@ -9,15 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- MongoDB connection ---
 mongoose
-  .connect(
-    "mongodb+srv://nandha:123nandha@cluster0.lqtgmgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0s"
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Atlas connected"))
-  .catch((err) => console.error(err));
+  .catch((err) => console.error("Connection error:", err));
 
-// --- Schema & Model ---
 const contentSchema = new mongoose.Schema({
   type: {
     type: String,
@@ -27,55 +23,47 @@ const contentSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   poster: { type: String },
-
   contentWriter: { name: String, photo: String },
   posterEditor: { name: String, photo: String },
-
   createdAt: { type: Date, default: Date.now },
-
-  // 🔥 AUTO DELETE AFTER 24 HOURS
-  expiresAt: {
-    type: Date,
-    default: () => new Date(Date.now() + 24 * 60 * 60 * 1000),
-    index: { expires: 0 }, // TTL index
-  },
+  // REMOVED: expiresAt (TTL Index) so articles don't disappear after 24 hours.
 });
 
 const Content = mongoose.model("Content", contentSchema);
 
 // --- Routes ---
 
-// Create content (special/article/podcast)
+// 1. Create content
 app.post("/api/content/create", async (req, res) => {
   try {
     const newContent = new Content(req.body);
     await newContent.save();
-    res.status(201).json({
-      message: "Content uploaded successfully (Auto deletes in 24 hrs)",
-      data: newContent,
-    });
+    res
+      .status(201)
+      .json({ message: "Content uploaded successfully", data: newContent });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-// ✅ Get LATEST content by TYPE (single document)
+
+// 2. Get ALL contents of a specific type (Used by Articles.js)
+app.get("/api/content/type/:type", async (req, res) => {
+  try {
+    const data = await Content.find({ type: req.params.type }).sort({
+      createdAt: -1,
+    });
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 3. Get LATEST content by TYPE (Used by Home.js)
 app.get("/api/content/latest/:type", async (req, res) => {
   try {
     const latest = await Content.findOne({ type: req.params.type }).sort({
       createdAt: -1,
     });
-
-    if (!latest) return res.status(404).json({ message: "No content found" });
-
-    res.json(latest);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-// ✅ Latest content (any type)
-app.get("/api/content/latest", async (req, res) => {
-  try {
-    const latest = await Content.findOne().sort({ createdAt: -1 });
     if (!latest) return res.status(404).json({ message: "No content found" });
     res.json(latest);
   } catch (err) {
@@ -83,7 +71,7 @@ app.get("/api/content/latest", async (req, res) => {
   }
 });
 
-// 🔥 Get ALL contents (for admin/upload page)
+// 4. Get ALL contents (Used by SpecialUpload.js)
 app.get("/api/content", async (req, res) => {
   try {
     const data = await Content.find().sort({ createdAt: -1 });
@@ -93,7 +81,7 @@ app.get("/api/content", async (req, res) => {
   }
 });
 
-// 🔥 Delete content by ID
+// 5. Delete content
 app.delete("/api/content/:id", async (req, res) => {
   try {
     await Content.findByIdAndDelete(req.params.id);
@@ -103,8 +91,5 @@ app.delete("/api/content/:id", async (req, res) => {
   }
 });
 
-// --- Start server ---
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

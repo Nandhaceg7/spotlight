@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Articles.css";
 
+// Use a base URL variable to make switching between localhost and production easier
+const API_BASE = "http://localhost:5000/api/content";
+
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -8,7 +11,8 @@ export default function Articles() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/content/type/article") // ✅ FIXED
+    // Corrected endpoint to fetch only articles
+    fetch(`${API_BASE}/type/article`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch articles");
         return res.json();
@@ -28,16 +32,13 @@ export default function Articles() {
   if (!articles.length)
     return <p className="no-articles">No articles found.</p>;
 
-  // SINGLE ARTICLE VIEW
   if (selectedArticle) {
     return (
       <section className="article-details">
         <button onClick={() => setSelectedArticle(null)} className="back-btn">
           ← Back
         </button>
-
         <h1>{selectedArticle.title}</h1>
-
         {selectedArticle.poster && (
           <div className="article-poster-container">
             <img
@@ -47,9 +48,7 @@ export default function Articles() {
             />
           </div>
         )}
-
         <p>{selectedArticle.description}</p>
-
         <div className="authors">
           <p>
             <strong>Content Writer:</strong>{" "}
@@ -63,7 +62,6 @@ export default function Articles() {
     );
   }
 
-  // ARTICLES LIST VIEW
   return (
     <section className="articles-wrapper">
       {articles.map((article) => (
@@ -73,10 +71,9 @@ export default function Articles() {
           onClick={() => setSelectedArticle(article)}
         >
           {article.poster && <img src={article.poster} alt={article.title} />}
-
           <div className="article-text">
             <h2>{article.title}</h2>
-            <p>{article.description.substring(0, 150)}...</p>
+            <p>{article.description?.substring(0, 150)}...</p>
             <span className="read-more">Read →</span>
           </div>
         </div>

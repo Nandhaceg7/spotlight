@@ -49,8 +49,8 @@ export default function Footer() {
       {/* Bottom */}
       <div className="footer-bottom">
         <p>
-          © {new Date().getFullYear()} Spotlight Club. Made with ❤️ for Art &
-          Culture.
+          <Link to="/special_upload">©</Link> {new Date().getFullYear()}{" "}
+          Spotlight Club. Made with ❤️ for Art & Culture.
         </p>
       </div>
     </footer>

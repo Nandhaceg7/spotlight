@@ -35,7 +35,7 @@ const clubWorks = [
   },
 ];
 
-// Fallback
+// Fallback Content
 const defaultContent = {
   type: "special",
   poster: "/images/image.png",
@@ -47,37 +47,55 @@ const defaultContent = {
 
 export default function Home() {
   const worksRef = useRef([]);
-  const [activeType, setActiveType] = useState("special");
+  const [activeType] = useState("special"); // Set to constant if filters are not used
   const [content, setContent] = useState(defaultContent);
 
-  // Fetch content by type
+  // FETCH LATEST CONTENT
   useEffect(() => {
+    // Standardized to localhost to match your backend; switch to Render URL for deployment
     fetch(`http://localhost:5000/api/content/latest/${activeType}`)
       .then((res) => {
-        if (!res.ok) throw new Error("No content");
+        if (!res.ok) throw new Error("No content found");
         return res.json();
       })
-      .then((data) => setContent({ ...defaultContent, ...data }))
-      .catch(() => setContent({ ...defaultContent, type: activeType }));
+      .then((data) => {
+        // Merge data with default to ensure all fields exist
+        setContent({ ...defaultContent, ...data });
+      })
+      .catch(() => {
+        setContent({ ...defaultContent, type: activeType });
+      });
   }, [activeType]);
 
-  // Scroll animation
+  // SCROLL ANIMATION (Intersection Observer)
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach(
-          (e) => e.isIntersecting && e.target.classList.add("visible")
-        ),
-      { threshold: 0.3 }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.2 }
     );
 
-    worksRef.current.forEach((el) => el && observer.observe(el));
-    return () => worksRef.current.forEach((el) => el && observer.unobserve(el));
+    // Capture the current refs to use in cleanup
+    const currentRefs = worksRef.current;
+    currentRefs.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      currentRefs.forEach((el) => {
+        if (el) observer.unobserve(el);
+      });
+    };
   }, []);
 
   return (
     <div className="home-container">
-      {/* INTRO */}
+      {/* INTRO SECTION */}
       <section className="intro-section">
         <h2>Spotlight 🕯 | Art for Change</h2>
         <p>A platform to do what matters.</p>
@@ -88,20 +106,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* FILTER BUTTONS */}
-      {/* <div className="content-filters">
-        {["special", "article", "podcast"].map((type) => (
-          <button
-            key={type}
-            className={activeType === type ? "active" : ""}
-            onClick={() => setActiveType(type)}
-          >
-            {type.toUpperCase()}
-          </button>
-        ))}
-      </div> */}
-
-      {/* CONTENT SECTION */}
+      {/* SPECIAL CONTENT SECTION */}
       <section className="special-day-section">
         <h2 className="section-title">
           {activeType === "special"
@@ -110,11 +115,13 @@ export default function Home() {
         </h2>
 
         <div className="special-day-content">
-          <img
-            src={content.poster}
-            alt={content.title}
-            className="special-poster"
-          />
+          {content.poster && (
+            <img
+              src={content.poster}
+              alt={content.title}
+              className="special-poster"
+            />
+          )}
 
           <div className="special-details">
             <h3>{content.title}</h3>
@@ -122,22 +129,24 @@ export default function Home() {
 
             <div className="authors">
               <p>
-                <strong>Content Writer:</strong> {content.contentWriter?.name}
+                <strong>Content Writer:</strong>{" "}
+                {content.contentWriter?.name || "Spotlight Team"}
               </p>
               <p>
-                <strong>Poster Editor:</strong> {content.posterEditor?.name}
+                <strong>Poster Editor:</strong>{" "}
+                {content.posterEditor?.name || "Spotlight Team"}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CLUB WORKS */}
+      {/* CLUB WORKS SECTION */}
       <section className="club-works-section">
         <h2 className="section-title">Our Club Works</h2>
         {clubWorks.map((work, i) => (
           <div
-            key={i}
+            key={work.type}
             ref={(el) => (worksRef.current[i] = el)}
             className={`club-work ${i % 2 === 0 ? "work-left" : "work-right"}`}
           >
